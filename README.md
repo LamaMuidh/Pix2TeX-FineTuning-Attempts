@@ -89,3 +89,71 @@ A typical prediction returns decoded LaTeX text:
 
 ```python
 pred = model(pil_img)
+```
+
+The output is a string rather than differentiable model outputs such as logits.
+
+For gradient-based training, the pipeline would require access to:
+
+- Model logits or token probabilities
+- A differentiable loss function
+- Target-aware internal forward passes
+- A valid backpropagation path
+
+The evaluation used BLEU to compare predicted and ground-truth LaTeX. However, BLEU is not differentiable and therefore cannot be used directly for gradient-based optimization.
+
+As a result, although layers were successfully prepared for partial fine-tuning and optimizers were configured, the inference interface did not provide the components required for reliable gradient-based training.
+
+## 📌 Project Outcome
+
+Although full gradient-based fine-tuning was not completed through the available inference interface, the project demonstrates:
+
+- A reproducible mathematical OCR data pipeline
+- Dataset preprocessing and inspection
+- Baseline evaluation of a pre-trained Pix2TeX model
+- LaTeX normalization and BLEU-based evaluation
+- Model parameter freezing and unfreezing strategies
+- Investigation of partial fine-tuning approaches
+- Analysis of architectural and API-level training limitations
+
+The project highlights both the practical implementation process and the technical challenges involved in adapting an inference-oriented model interface for training.
+
+## 🛠️ Technologies
+
+- Python
+- PyTorch
+- Pix2TeX / LaTeX-OCR
+- Hugging Face Datasets
+- Torchvision
+- NLTK
+- Pillow
+- Jupyter Notebook
+
+## 📁 Repository Structure
+
+```text
+Pix2TeX-FineTuning-Attempts/
+│
+├── Deep_learning_project_pix2tex.ipynb
+└── README.md
+```
+
+## ▶️ How to Run
+
+Install the required dependencies:
+
+```bash
+pip install datasets pillow torch torchvision transformers pix2tex nltk
+```
+
+Then open and run:
+
+```text
+Deep_learning_project_pix2tex.ipynb
+```
+
+## 📚 References
+
+- Pix2TeX / LaTeX-OCR by Lukas Blecher
+- Hugging Face `linxy/LaTeX_OCR` Dataset
+- NLTK BLEU Score with Smoothing
